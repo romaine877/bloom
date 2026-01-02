@@ -3,3 +3,47 @@
 @import "heroui-native/styles";
 
 @source './node_modules/heroui-native/lib';
+
+
+@theme {
+  --font-normal: "Epilogue_400Regular";
+  --font-medium: "Epilogue_500Medium";
+  --font-semibold: "Epilogue_600SemiBold";
+  --font-bold: "Epilogue_700Bold";
+  
+  /* Purple Theme Colors (#8c2bee) */
+  --color-purple-primary: #8c2bee;
+  --color-purple-primary-light: #a855f7;
+  --color-purple-primary-dark: #7c3aed;
+  --color-purple-accent: #c084fc;
+  --color-purple-muted: #e9d5ff;
+  
+  /* Green Theme Colors (#2ced6c) */
+  --color-green-primary: #2ced6c;
+  --color-green-primary-light: #4ade80;
+  --color-green-primary-dark: #22c55e;
+  --color-green-accent: #86efac;
+  --color-green-muted: #dcfce7;
+  
+  /* Default accent color (purple) - will be overridden by theme classes */
+  --color-accent: var(--color-purple-primary);
+  --color-accent-foreground: #ffffff;
+}
+
+/* Purple Theme - applied via className */
+.color-theme-purple {
+  --color-accent: var(--color-purple-primary);
+  --color-accent-foreground: #ffffff;
+  /* Subtle purple tint for backgrounds - blend with existing background */
+  --background-tint: rgba(140, 43, 238, 0.015);
+  --overlay-tint: rgba(140, 43, 238, 0.025);
+}
+
+/* Green Theme - applied via className */
+.color-theme-green {
+  --color-accent: var(--color-green-primary);
+  --color-accent-foreground: #000000;
+  /* Subtle green tint for backgrounds - blend with existing background */
+  --background-tint: rgba(44, 237, 108, 0.015);
+  --overlay-tint: rgba(44, 237, 108, 0.025);
+}

@@ -1,10 +1,18 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs, useRouter } from "expo-router";
 import { useThemeColor } from "heroui-native";
 
 export default function TabLayout() {
   const themeColorForeground = useThemeColor("foreground");
   const themeColorBackground = useThemeColor("background");
+
+  const isLoggedIn = false;
+
+
+  if (!isLoggedIn) {
+   return <Redirect href="/landing" />
+  }
+  
 
   return (
     <Tabs
