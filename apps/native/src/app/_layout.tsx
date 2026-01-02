@@ -7,6 +7,9 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
+import { ClerkProvider } from '@clerk/clerk-expo'
+import { tokenCache } from '@clerk/clerk-expo/token-cache'
+
 import { AppThemeProvider } from "@/src/contexts/app-theme-context";
 import { StatusBar } from 'expo-status-bar';
 import {
@@ -60,6 +63,7 @@ export default function Layout() {
   }
 
   return (
+    <ClerkProvider tokenCache={tokenCache}>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider>
         <AppThemeProvider>
@@ -69,5 +73,6 @@ export default function Layout() {
         </AppThemeProvider>
       </KeyboardProvider>
     </GestureHandlerRootView>
+    </ClerkProvider>
   );
 }
