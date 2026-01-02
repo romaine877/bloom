@@ -7,6 +7,14 @@ const config = getDefaultConfig(__dirname);
 const uniwindConfig = withUniwindConfig(config, {
   cssEntryFile: "./global.css",
   dtsFile: "./uniwind-types.d.ts",
+  extraThemes: [
+    "purple-light",
+    "purple-dark",
+    "green-light",
+    "green-dark",
+    "neonBlue-light",
+    "neonBlue-dark",
+  ],
 });
 
 module.exports = uniwindConfig;

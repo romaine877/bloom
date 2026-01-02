@@ -11,39 +11,331 @@
   --font-semibold: "Epilogue_600SemiBold";
   --font-bold: "Epilogue_700Bold";
   
-  /* Purple Theme Colors (#8c2bee) */
-  --color-purple-primary: #8c2bee;
-  --color-purple-primary-light: #a855f7;
-  --color-purple-primary-dark: #7c3aed;
-  --color-purple-accent: #c084fc;
-  --color-purple-muted: #e9d5ff;
+  /* Semantic Surface Colors (light mode defaults) */
+  --color-surface: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-surface-pressed: #f3f4f6;
   
-  /* Green Theme Colors (#2ced6c) */
-  --color-green-primary: #2ced6c;
-  --color-green-primary-light: #4ade80;
-  --color-green-primary-dark: #22c55e;
-  --color-green-accent: #86efac;
-  --color-green-muted: #dcfce7;
+  /* Semantic Text Colors (light mode defaults) */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+  --color-text-inverse: #ffffff;
   
-  /* Default accent color (purple) - will be overridden by theme classes */
-  --color-accent: var(--color-purple-primary);
-  --color-accent-foreground: #ffffff;
+  /* Semantic Border Colors (light mode defaults) */
+  --color-border: #e5e7eb;
+  --color-border-focused: var(--color-accent);
 }
 
-/* Purple Theme - applied via className */
-.color-theme-purple {
-  --color-accent: var(--color-purple-primary);
-  --color-accent-foreground: #ffffff;
-  /* Subtle purple tint for backgrounds - blend with existing background */
-  --background-tint: rgba(140, 43, 238, 0.015);
-  --overlay-tint: rgba(140, 43, 238, 0.025);
+/* 
+ * Custom color themes using Uniwind's variant system
+ * Each theme variant defines the full set of HeroUI variables
+ */
+@layer theme {
+  :root {
+    /* ===== PURPLE THEME ===== */
+    @variant purple-light {
+      /* Base Colors */
+      --background: oklch(0.98 0.01 285);
+      --foreground: oklch(0.21 0.006 286);
+
+      /* Surface */
+      --surface: oklch(1 0 0);
+      --surface-foreground: oklch(0.21 0.006 286);
+
+      /* Overlay */
+      --overlay: oklch(1 0 0);
+      --overlay-foreground: oklch(0.21 0.006 286);
+
+      --muted: oklch(0.55 0.016 286);
+
+      --default: oklch(0.94 0.001 286);
+      --default-foreground: oklch(0.21 0.006 286);
+
+      /* Accent - Purple */
+      --accent: oklch(0.55 0.25 300);
+      --accent-foreground: oklch(0.99 0 0);
+
+      /* Form Field Defaults */
+      --field-background: oklch(1 0 0);
+      --field-foreground: oklch(0.21 0.006 286);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+
+      /* Status Colors */
+      --success: oklch(0.73 0.19 151);
+      --success-foreground: oklch(0.21 0.006 286);
+
+      --warning: oklch(0.78 0.16 72);
+      --warning-foreground: oklch(0.21 0.006 286);
+
+      --danger: oklch(0.65 0.23 26);
+      --danger-foreground: oklch(0.99 0 0);
+
+      /* Component Colors */
+      --segment: oklch(1 0 0);
+      --segment-foreground: oklch(0.21 0.006 286);
+
+      /* Misc Colors */
+      --border: oklch(0 0 0 / 0%);
+      --divider: oklch(0.72 0.004 286);
+      --link: var(--foreground);
+    }
+
+    @variant purple-dark {
+      /* Base Colors */
+      --background: oklch(0 0 0);
+      --foreground: oklch(0.99 0 0);
+
+      /* Surface */
+      --surface: oklch(0.21 0.006 286);
+      --surface-foreground: oklch(0.99 0 0);
+
+      /* Overlay */
+      --overlay: oklch(0.26 0.006 271);
+      --overlay-foreground: oklch(0.99 0 0);
+
+      --muted: oklch(0.71 0.015 286);
+
+      --default: oklch(0.27 0.006 286);
+      --default-foreground: oklch(0.99 0 0);
+
+      /* Accent - Purple */
+      --accent: oklch(0.55 0.25 300);
+      --accent-foreground: oklch(0.99 0 0);
+
+      /* Form Field Defaults */
+      --field-background: var(--default);
+      --field-foreground: var(--foreground);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+
+      /* Status Colors */
+      --success: oklch(0.73 0.19 151);
+      --success-foreground: oklch(0.21 0.006 286);
+
+      --warning: oklch(0.82 0.14 76);
+      --warning-foreground: oklch(0.21 0.006 286);
+
+      --danger: oklch(0.59 0.20 25);
+      --danger-foreground: oklch(0.99 0 0);
+
+      /* Component Colors */
+      --segment: oklch(0.40 0.01 286);
+      --segment-foreground: oklch(0.99 0 0);
+
+      /* Misc Colors */
+      --border: oklch(1 0 0 / 0%);
+      --divider: oklch(0.38 0.006 286);
+      --link: var(--foreground);
+    }
+
+    /* ===== GREEN THEME ===== */
+    @variant green-light {
+      /* Base Colors */
+      --background: oklch(0.98 0.015 145);
+      --foreground: oklch(0.21 0.006 286);
+
+      /* Surface */
+      --surface: oklch(1 0 0);
+      --surface-foreground: oklch(0.21 0.006 286);
+
+      /* Overlay */
+      --overlay: oklch(1 0 0);
+      --overlay-foreground: oklch(0.21 0.006 286);
+
+      --muted: oklch(0.55 0.016 286);
+
+      --default: oklch(0.94 0.001 286);
+      --default-foreground: oklch(0.21 0.006 286);
+
+      /* Accent - Green */
+      --accent: oklch(0.80 0.22 145);
+      --accent-foreground: oklch(0.15 0 0);
+
+      /* Form Field Defaults */
+      --field-background: oklch(1 0 0);
+      --field-foreground: oklch(0.21 0.006 286);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+
+      /* Status Colors */
+      --success: oklch(0.73 0.19 151);
+      --success-foreground: oklch(0.21 0.006 286);
+
+      --warning: oklch(0.78 0.16 72);
+      --warning-foreground: oklch(0.21 0.006 286);
+
+      --danger: oklch(0.65 0.23 26);
+      --danger-foreground: oklch(0.99 0 0);
+
+      /* Component Colors */
+      --segment: oklch(1 0 0);
+      --segment-foreground: oklch(0.21 0.006 286);
+
+      /* Misc Colors */
+      --border: oklch(0 0 0 / 0%);
+      --divider: oklch(0.72 0.004 286);
+      --link: var(--foreground);
+    }
+
+    @variant green-dark {
+      /* Base Colors */
+      --background: oklch(0 0 0);
+      --foreground: oklch(0.99 0 0);
+
+      /* Surface */
+      --surface: oklch(0.21 0.006 286);
+      --surface-foreground: oklch(0.99 0 0);
+
+      /* Overlay */
+      --overlay: oklch(0.26 0.006 271);
+      --overlay-foreground: oklch(0.99 0 0);
+
+      --muted: oklch(0.71 0.015 286);
+
+      --default: oklch(0.27 0.006 286);
+      --default-foreground: oklch(0.99 0 0);
+
+      /* Accent - Green */
+      --accent: oklch(0.80 0.22 145);
+      --accent-foreground: oklch(0.15 0 0);
+
+      /* Form Field Defaults */
+      --field-background: var(--default);
+      --field-foreground: var(--foreground);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+
+      /* Status Colors */
+      --success: oklch(0.73 0.19 151);
+      --success-foreground: oklch(0.21 0.006 286);
+
+      --warning: oklch(0.82 0.14 76);
+      --warning-foreground: oklch(0.21 0.006 286);
+
+      --danger: oklch(0.59 0.20 25);
+      --danger-foreground: oklch(0.99 0 0);
+
+      /* Component Colors */
+      --segment: oklch(0.40 0.01 286);
+      --segment-foreground: oklch(0.99 0 0);
+
+      /* Misc Colors */
+      --border: oklch(1 0 0 / 0%);
+      --divider: oklch(0.38 0.006 286);
+      --link: var(--foreground);
+    }
+
+    /* ===== NEON BLUE THEME ===== */
+    @variant neonBlue-light {
+      /* Base Colors */
+      --background: oklch(0.97 0.02 200);
+      --foreground: oklch(0.21 0.006 286);
+
+      /* Surface */
+      --surface: oklch(1 0 0);
+      --surface-foreground: oklch(0.21 0.006 286);
+
+      /* Overlay */
+      --overlay: oklch(1 0 0);
+      --overlay-foreground: oklch(0.21 0.006 286);
+
+      --muted: oklch(0.55 0.016 286);
+
+      --default: oklch(0.94 0.001 286);
+      --default-foreground: oklch(0.21 0.006 286);
+
+      /* Accent - Neon Blue / Cyan */
+      --accent: oklch(0.80 0.15 200);
+      --accent-foreground: oklch(0.15 0 0);
+
+      /* Form Field Defaults */
+      --field-background: oklch(1 0 0);
+      --field-foreground: oklch(0.21 0.006 286);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+
+      /* Status Colors */
+      --success: oklch(0.73 0.19 151);
+      --success-foreground: oklch(0.21 0.006 286);
+
+      --warning: oklch(0.78 0.16 72);
+      --warning-foreground: oklch(0.21 0.006 286);
+
+      --danger: oklch(0.65 0.23 26);
+      --danger-foreground: oklch(0.99 0 0);
+
+      /* Component Colors */
+      --segment: oklch(1 0 0);
+      --segment-foreground: oklch(0.21 0.006 286);
+
+      /* Misc Colors */
+      --border: oklch(0 0 0 / 0%);
+      --divider: oklch(0.72 0.004 286);
+      --link: var(--foreground);
+    }
+
+    @variant neonBlue-dark {
+      /* Base Colors */
+      --background: oklch(0 0 0);
+      --foreground: oklch(0.99 0 0);
+
+      /* Surface */
+      --surface: oklch(0.21 0.006 286);
+      --surface-foreground: oklch(0.99 0 0);
+
+      /* Overlay */
+      --overlay: oklch(0.26 0.006 271);
+      --overlay-foreground: oklch(0.99 0 0);
+
+      --muted: oklch(0.71 0.015 286);
+
+      --default: oklch(0.27 0.006 286);
+      --default-foreground: oklch(0.99 0 0);
+
+      /* Accent - Neon Blue / Cyan */
+      --accent: oklch(0.80 0.15 200);
+      --accent-foreground: oklch(0.15 0 0);
+
+      /* Form Field Defaults */
+      --field-background: var(--default);
+      --field-foreground: var(--foreground);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+
+      /* Status Colors */
+      --success: oklch(0.73 0.19 151);
+      --success-foreground: oklch(0.21 0.006 286);
+
+      --warning: oklch(0.82 0.14 76);
+      --warning-foreground: oklch(0.21 0.006 286);
+
+      --danger: oklch(0.59 0.20 25);
+      --danger-foreground: oklch(0.99 0 0);
+
+      /* Component Colors */
+      --segment: oklch(0.40 0.01 286);
+      --segment-foreground: oklch(0.99 0 0);
+
+      /* Misc Colors */
+      --border: oklch(1 0 0 / 0%);
+      --divider: oklch(0.38 0.006 286);
+      --link: var(--foreground);
+    }
+  }
 }
 
-/* Green Theme - applied via className */
-.color-theme-green {
-  --color-accent: var(--color-green-primary);
-  --color-accent-foreground: #000000;
-  /* Subtle green tint for backgrounds - blend with existing background */
-  --background-tint: rgba(44, 237, 108, 0.015);
-  --overlay-tint: rgba(44, 237, 108, 0.025);
+/* Dark Mode - semantic color overrides for our custom tokens */
+.dark {
+  --color-surface: #111827;
+  --color-surface-elevated: #1f2937;
+  --color-surface-pressed: #374151;
+  
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9ca3af;
+  --color-text-tertiary: #6b7280;
+  --color-text-inverse: #111827;
+  
+  --color-border: #374151;
 }

@@ -6,31 +6,24 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useAppTheme } from "@/src/contexts/app-theme-context";
+import { router } from "expo-router";
 
 export default function Landing() {
   const insets = useSafeAreaInsets();
-  const { colorTheme } = useAppTheme();
+  const { colors, shadows, gradients, setColorTheme, toggleThemeMode } = useAppTheme();
   const screenHeight = Dimensions.get('window').height;
   const maxImageHeight = screenHeight * 0.38;
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-
-  // Theme-aware colors
-  const accentColor = colorTheme === "purple" ? "#8c2bee" : "#2ced6c";
-  const accentColorLight = colorTheme === "purple" ? "#c084fc" : "#86efac";
-  const accentColorSoft = colorTheme === "purple" ? "rgba(140, 43, 238, 0.08)" : "rgba(44, 237, 108, 0.08)";
-  
-  // Gradient colors - warm, nurturing tones
-  const gradientColors = colorTheme === "purple" 
-    ? ['#FDF8FF', '#FBF4FF', '#F8EFFC', '#FDF8FF'] as const
-    : ['#F8FFFA', '#F4FFF7', '#EFFCF3', '#F8FFFA'] as const;
   
   const handleGoogleLogin = () => {
     console.log("Google login pressed");
+    router.push("/onboarding");
     setIsBottomSheetOpen(false);
   };
 
   const handleAppleLogin = () => {
     console.log("Apple login pressed");
+    setColorTheme("green");
     setIsBottomSheetOpen(false);
   };
   
@@ -39,8 +32,8 @@ export default function Landing() {
       <View className="flex-1">
         {/* Beautiful gradient background */}
         <LinearGradient
-          colors={gradientColors}
-          locations={[0, 0.3, 0.7, 1]}
+          colors={colors.backgroundGradient}
+          locations={gradients.backgroundLocations}
           style={StyleSheet.absoluteFill}
         />
         
@@ -58,14 +51,8 @@ export default function Landing() {
               <View className="items-center mb-6 mt-2">
                 <View className="flex-row items-center gap-2.5">
                   <View 
-                    className="w-9 h-9 rounded-xl items-center justify-center"
-                    style={{ 
-                      backgroundColor: accentColorSoft,
-                      shadowColor: accentColor,
-                      shadowOffset: { width: 0, height: 2 },
-                      shadowOpacity: 0.15,
-                      shadowRadius: 8,
-                    }}
+                    className="w-9 h-9 rounded-xl items-center justify-center bg-accent/10"
+                    style={shadows.sm}
                   >
                     <Image 
                       source={require("../../../assets/images/app-icon.png")} 
@@ -73,10 +60,7 @@ export default function Landing() {
                       resizeMode="contain" 
                     />
                   </View>
-                  <Text 
-                    className="text-2xl font-bold tracking-tight"
-                    style={{ color: accentColor }}
-                  >
+                  <Text className="text-2xl font-bold tracking-tight text-accent">
                     Bloom
                   </Text>
                 </View>
@@ -85,24 +69,15 @@ export default function Landing() {
               {/* Hero Image with elegant frame */}
               <View className="items-center mb-6">
                 <View 
-                  className="rounded-[28px] overflow-hidden w-full"
+                  className="rounded-[28px] overflow-hidden w-full shadow-xl"
                   style={{ 
                     aspectRatio: 3/4, 
                     maxHeight: maxImageHeight,
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 8 },
-                    shadowOpacity: 0.12,
-                    shadowRadius: 24,
-                    elevation: 12,
                   }}
                 >
                   {/* Subtle inner border effect */}
                   <View 
-                    className="absolute inset-0 z-10 rounded-[28px]"
-                    style={{
-                      borderWidth: 1,
-                      borderColor: 'rgba(255,255,255,0.6)',
-                    }}
+                    className="absolute inset-0 z-10 rounded-[28px] border border-white/60"
                   />
                   <Image
                     source={require("../../../assets/images/landing-hero.jpg")}
@@ -112,7 +87,7 @@ export default function Landing() {
                   />
                   {/* Soft gradient overlay at bottom for depth */}
                   <LinearGradient
-                    colors={['transparent', 'rgba(0,0,0,0.03)']}
+                    colors={gradients.softOverlay}
                     style={{
                       position: 'absolute',
                       bottom: 0,
@@ -126,19 +101,16 @@ export default function Landing() {
 
               {/* Title with refined typography */}
               <View className="items-center mb-4">
-                <Text 
-                  className="text-[15px] font-medium tracking-widest uppercase mb-2"
-                  style={{ color: accentColor, opacity: 0.8 }}
-                >
+                <Text className="text-[15px] font-medium tracking-widest uppercase mb-2 text-accent opacity-80">
                   Your Wellness Journey
                 </Text>
-                <Text className="text-[32px] font-bold text-gray-900 text-center leading-tight tracking-tight">
+                <Text className="text-[32px] font-bold text-text-primary text-center leading-tight tracking-tight">
                   Thrive with{'\n'}Confidence
                 </Text>
               </View>
 
               {/* Refined description with better spacing */}
-              <Text className="text-gray-500 text-[15px] text-center leading-6 px-2">
+              <Text className="text-text-secondary text-[15px] text-center leading-6 px-2">
                 Track, understand, and manage your PCOS journey with a companion that truly cares about your wellbeing.
               </Text>
             </View>
@@ -147,31 +119,16 @@ export default function Landing() {
             <View className="pb-3 gap-4">
               {/* Decorative element */}
               <View className="flex-row items-center justify-center gap-2 mb-1">
-                <View 
-                  className="h-px w-12"
-                  style={{ backgroundColor: accentColorLight, opacity: 0.4 }}
-                />
-                <View 
-                  className="w-1.5 h-1.5 rounded-full"
-                  style={{ backgroundColor: accentColorLight, opacity: 0.6 }}
-                />
-                <View 
-                  className="h-px w-12"
-                  style={{ backgroundColor: accentColorLight, opacity: 0.4 }}
-                />
+                <View className="h-px w-12 bg-accent/40" />
+                <View className="w-1.5 h-1.5 rounded-full bg-accent/60" />
+                <View className="h-px w-12 bg-accent/40" />
               </View>
               
               <Button 
                 variant="primary" 
                 size="lg" 
                 className="w-full rounded-2xl"
-                style={{
-                  shadowColor: accentColor,
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.3,
-                  shadowRadius: 12,
-                  elevation: 8,
-                }}
+                style={shadows.accent(colors.accent)}
                 onPress={() => setIsBottomSheetOpen(true)}
               >
                 <Button.Label className="font-bold text-[17px] tracking-wide">
@@ -179,7 +136,7 @@ export default function Landing() {
                 </Button.Label>
               </Button>
               
-              <Text className="text-gray-400 text-xs text-center">
+              <Text className="text-text-tertiary text-xs text-center">
                 Join thousands of women taking control of their health
               </Text>
             </View>
@@ -191,31 +148,25 @@ export default function Landing() {
       <BottomSheet isOpen={isBottomSheetOpen} onOpenChange={setIsBottomSheetOpen}>
         <BottomSheet.Portal>
           <BottomSheet.Overlay />
-          <BottomSheet.Content >
+          <BottomSheet.Content>
             {/* Gradient overlay for bottom sheet */}
             <LinearGradient
-              colors={gradientColors}
+              colors={colors.backgroundGradient}
               style={StyleSheet.absoluteFill}
             />
             
             <View className="px-7 pb-8 pt-2">
               {/* Decorative header flourish */}
               <View className="items-center mb-5">
-          
-                <View 
-                  className="w-14 h-14 rounded-2xl items-center justify-center mb-4"
-                  style={{ 
-                    backgroundColor: accentColorSoft,
-                  }}
-                >
-                  <Ionicons name="sparkles" size={28} color={accentColor} />
+                <View className="w-14 h-14 rounded-2xl items-center justify-center mb-4 bg-accent/10">
+                  <Ionicons name="sparkles" size={28} color={colors.accent} />
                 </View>
               </View>
               
-              <BottomSheet.Title className="text-2xl font-bold text-center text-gray-900 mb-2">
+              <BottomSheet.Title className="text-2xl font-bold text-center text-foreground mb-2">
                 Welcome to Bloom
               </BottomSheet.Title>
-              <BottomSheet.Description className="text-gray-500 text-center mb-8 text-[15px] leading-5">
+              <BottomSheet.Description className="text-muted text-center mb-8 text-[15px] leading-5">
                 Sign in to start your personalized{'\n'}wellness journey
               </BottomSheet.Description>
               
@@ -224,15 +175,7 @@ export default function Landing() {
                 <Button 
                   variant="secondary" 
                   size="lg" 
-                  className="w-full rounded-2xl"
-                  style={{
-                    backgroundColor: '#fff',
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.06,
-                    shadowRadius: 8,
-                    elevation: 3,
-                  }}
+                  className="w-full rounded-2xl bg-surface shadow-md"
                   onPress={handleGoogleLogin}
                 >
                   <View className="flex-row items-center justify-center gap-3">
@@ -241,7 +184,7 @@ export default function Landing() {
                       className="w-5 h-5"
                       defaultSource={require("../../../assets/images/react-logo.png")}
                     />
-                    <Button.Label className="font-semibold text-gray-700">
+                    <Button.Label className="font-semibold text-foreground">
                       Continue with Google
                     </Button.Label>
                   </View>
@@ -251,15 +194,7 @@ export default function Landing() {
                 <Button 
                   variant="secondary" 
                   size="lg" 
-                  className="w-full rounded-2xl"
-                  style={{
-                    backgroundColor: '#000',
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.15,
-                    shadowRadius: 8,
-                    elevation: 3,
-                  }}
+                  className="w-full rounded-2xl bg-black shadow-md"
                   onPress={handleAppleLogin}
                 >
                   <View className="flex-row items-center justify-center gap-3">
@@ -272,11 +207,11 @@ export default function Landing() {
               </View>
               
               {/* Terms text */}
-              <Text className="text-gray-400 text-xs text-center mt-6 leading-4">
+              <Text className="text-muted text-xs text-center mt-6 leading-4">
                 By continuing, you agree to our{' '}
-                <Text style={{ color: accentColor }}>Terms of Service</Text>
+                <Text className="text-accent">Terms of Service</Text>
                 {' '}and{' '}
-                <Text style={{ color: accentColor }}>Privacy Policy</Text>
+                <Text className="text-accent">Privacy Policy</Text>
               </Text>
             </View>
           </BottomSheet.Content>
