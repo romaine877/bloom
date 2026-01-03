@@ -1,4 +1,4 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyReply } from "fastify";
 
 import {
   CompleteOnboardingUseCase,
@@ -32,7 +32,7 @@ export class ProfileController {
     reply: FastifyReply
   ) {
     const result = await this.completeOnboardingUseCase.execute({
-      ...request.body,
+      ...(request.body as Omit<CompleteOnboardingInput, "userId">),
       userId: request.userId,
     });
 

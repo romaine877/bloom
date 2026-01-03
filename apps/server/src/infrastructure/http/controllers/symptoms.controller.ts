@@ -15,7 +15,7 @@ export class SymptomsController {
 
   async logSymptom(
     request: AuthenticatedRequest & {
-      Body: {
+      body: {
         date?: string;
         symptomType: SymptomType;
         severity: SymptomSeverity;
@@ -36,7 +36,7 @@ export class SymptomsController {
   }
 
   async getByDate(
-    request: AuthenticatedRequest & { Querystring: { date: string } },
+    request: AuthenticatedRequest & { query: { date: string } },
     reply: FastifyReply
   ) {
     const result = await this.getSymptomsByDateUseCase.execute({

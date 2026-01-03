@@ -15,7 +15,7 @@ export class WeightController {
 
   async logWeight(
     request: AuthenticatedRequest & {
-      Body: { date?: string; weight: number; unit: WeightUnit; notes?: string };
+      body: { date?: string; weight: number; unit: WeightUnit; notes?: string };
     },
     reply: FastifyReply
   ) {
@@ -31,7 +31,7 @@ export class WeightController {
   }
 
   async getHistory(
-    request: AuthenticatedRequest & { Querystring: { startDate: string; endDate: string } },
+    request: AuthenticatedRequest & { query: { startDate: string; endDate: string } },
     reply: FastifyReply
   ) {
     const result = await this.getWeightHistoryUseCase.execute({

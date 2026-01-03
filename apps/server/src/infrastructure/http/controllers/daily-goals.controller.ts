@@ -22,7 +22,7 @@ export class DailyGoalsController {
     return reply.send(result);
   }
 
-  async addWater(request: AuthenticatedRequest & { Body: { glasses?: number } }, reply: FastifyReply) {
+  async addWater(request: AuthenticatedRequest & { body: { glasses?: number } }, reply: FastifyReply) {
     const result = await this.updateDailyGoalUseCase.execute({
       userId: request.userId,
       date: new Date(),
@@ -32,7 +32,7 @@ export class DailyGoalsController {
     return reply.send(result);
   }
 
-  async updateSteps(request: AuthenticatedRequest & { Body: { steps: number } }, reply: FastifyReply) {
+  async updateSteps(request: AuthenticatedRequest & { body: { steps: number } }, reply: FastifyReply) {
     const result = await this.updateDailyGoalUseCase.execute({
       userId: request.userId,
       date: new Date(),

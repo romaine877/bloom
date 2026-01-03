@@ -9,7 +9,7 @@ export const env = createEnv({
     NODE_ENV: z.enum(["development", "production", "staging"]).default("development"),
     CLERK_SECRET_KEY: z.string().min(1),
     CLERK_PUBLISHABLE_KEY: z.string().min(1),
-    CLERK_WEBHOOK_SECRET: z.string().min(1),
+   CLERK_WEBHOOK_SECRET: z.string().min(1),
     PORT: z.number().default(3000),
     HOST: z.string().default("0.0.0.0"),
   },

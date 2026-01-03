@@ -15,7 +15,7 @@ export class MealsController {
 
   async logMeal(
     request: AuthenticatedRequest & {
-      Body: {
+      body: {
         date?: string;
         mealType: MealType;
         description: string;
@@ -40,7 +40,7 @@ export class MealsController {
   }
 
   async getByDate(
-    request: AuthenticatedRequest & { Querystring: { date: string } },
+    request: AuthenticatedRequest & { query: { date: string } },
     reply: FastifyReply
   ) {
     const result = await this.getMealsByDateUseCase.execute({

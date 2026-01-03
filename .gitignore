@@ -48,3 +48,8 @@ coverage
 .cache
 tmp
 temp
+
+key.json
+
+
+google-cloud-sdk

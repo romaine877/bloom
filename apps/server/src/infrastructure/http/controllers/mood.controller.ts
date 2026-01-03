@@ -13,7 +13,7 @@ export class MoodController {
 
   async logMood(
     request: AuthenticatedRequest & {
-      Body: { date?: string; mood: MoodType; energyLevel: number; notes?: string };
+      body: { date?: string; mood: MoodType; energyLevel: number; notes?: string };
     },
     reply: FastifyReply
   ) {

@@ -15,7 +15,7 @@ export class CycleController {
 
   async logCycle(
     request: AuthenticatedRequest & {
-      Body: {
+      body: {
         date: string;
         phase: CyclePhase;
         dayOfCycle: number;
@@ -38,7 +38,7 @@ export class CycleController {
   }
 
   async getHistory(
-    request: AuthenticatedRequest & { Querystring: { startDate: string; endDate: string } },
+    request: AuthenticatedRequest & { query: { startDate: string; endDate: string } },
     reply: FastifyReply
   ) {
     const result = await this.getCycleHistoryUseCase.execute({

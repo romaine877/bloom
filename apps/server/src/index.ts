@@ -94,7 +94,7 @@ async function bootstrap() {
 
   // Start server
   try {
-    await fastify.listen({ port: env.PORT, host: env.HOST });
+    await fastify.listen({ port: env.PORT,  });
     console.log(`Server running on port ${env.PORT}`);
     console.log(`API Documentation available at http://${env.HOST}:${env.PORT}/docs`);
   } catch (err) {
