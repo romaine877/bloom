@@ -1,0 +1,49 @@
+# Dependencies (installed fresh in container)
+node_modules/
+**/node_modules/
+.bun
+
+# Build outputs (built fresh in container)
+**/dist/
+
+# Development & environment files
+.env
+.env.*
+!.env.example
+
+# IDE & editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+
+# Native & web apps (not needed for server)
+apps/native/
+apps/web/
+
+# Tests
+coverage/
+.nyc_output/
+
+# Misc
+*.log
+.turbo/
+
+# GCP SDK (should not be in repo)
+google-cloud-sdk/
+
+# Secrets (should not be in repo!)
+key.json
+*.json.backup
+
