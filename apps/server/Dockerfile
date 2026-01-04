@@ -7,16 +7,20 @@ FROM oven/bun:1.3-alpine AS deps
 
 WORKDIR /app
 
-# Copy root workspace files
-COPY package.json bun.lock bunfig.toml ./
+# Copy root workspace files first
+COPY package.json bun.lock bunfig.toml tsconfig.json ./
 
-# Copy workspace package.json files for dependency resolution
+# Copy all workspace packages (Bun needs full workspace structure)
+COPY packages ./packages
+
+# Copy package.json files for all apps (Bun lockfile references all workspaces)
+# We only need package.json, not the full source, for workspace resolution
 COPY apps/server/package.json ./apps/server/
-COPY packages/config/package.json ./packages/config/
-COPY packages/db/package.json ./packages/db/
-COPY packages/env/package.json ./packages/env/
+COPY apps/native/package.json ./apps/native/
+COPY apps/web/package.json ./apps/web/
 
 # Install all dependencies
+# Bun needs to see all workspace package.json files to match the lockfile
 RUN bun install --frozen-lockfile
 
 # =============================================================================
@@ -29,15 +33,11 @@ WORKDIR /app
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/server/node_modules ./apps/server/node_modules
-COPY --from=deps /app/packages/db/node_modules ./packages/db/node_modules
-COPY --from=deps /app/packages/env/node_modules ./packages/env/node_modules
+COPY --from=deps /app/packages ./packages
 
-# Copy source files
+# Copy source files (packages already copied in deps stage)
 COPY package.json bun.lock bunfig.toml tsconfig.json ./
 COPY apps/server ./apps/server
-COPY packages/config ./packages/config
-COPY packages/db ./packages/db
-COPY packages/env ./packages/env
 
 # Build the server (tsdown bundles workspace dependencies)
 WORKDIR /app/apps/server

@@ -39,9 +39,8 @@ coverage
 *.log
 npm-debug.log*
 
-# Native apps (not needed for server build)
-apps/native
-apps/web
+# Note: apps/native and apps/web package.json files are needed for Bun workspace resolution
+# Their source files are excluded below via other patterns (dist, node_modules, etc.)
 
 # Google Cloud SDK (should not be in repo)
 google-cloud-sdk
