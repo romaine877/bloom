@@ -3,7 +3,7 @@
 # =============================================================================
 # Stage 1: Install dependencies with Bun
 # =============================================================================
-FROM oven/bun:1.1-alpine AS deps
+FROM oven/bun:1.3-alpine AS deps
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ RUN bun install --frozen-lockfile
 # =============================================================================
 # Stage 2: Build the server
 # =============================================================================
-FROM oven/bun:1.1-alpine AS builder
+FROM oven/bun:1.3-alpine AS builder
 
 WORKDIR /app
 
@@ -50,6 +50,9 @@ FROM node:22-alpine AS runner
 
 WORKDIR /app
 
+# Install curl for health checks
+RUN apk add --no-cache curl
+
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 fastify
@@ -72,7 +75,7 @@ EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD node -e "fetch('http://localhost:8080/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"
+    CMD curl -f http://localhost:8080/health || exit 1
 
 CMD ["node", "dist/index.js"]
 

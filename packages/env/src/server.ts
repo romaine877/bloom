@@ -10,7 +10,7 @@ export const env = createEnv({
     CLERK_SECRET_KEY: z.string().min(1),
     CLERK_PUBLISHABLE_KEY: z.string().min(1),
    CLERK_WEBHOOK_SECRET: z.string().min(1),
-    PORT: z.number().default(3000),
+    PORT: z.coerce.number().default(3000),
     HOST: z.string().default("0.0.0.0"),
   },
   runtimeEnv: process.env,
