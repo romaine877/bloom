@@ -101,9 +101,7 @@ else\n\
 fi\n\
 ' > /app/start.sh && chmod +x /app/start.sh && chown fastify:nodejs /app/start.sh
 
-# Install only production dependencies needed for runtime
-# The bundle is self-contained, but we may need native modules
-RUN npm install --omit=dev --ignore-scripts 2>/dev/null || true
+# Bundle is self-contained, no need to install dependencies
 
 USER fastify
 

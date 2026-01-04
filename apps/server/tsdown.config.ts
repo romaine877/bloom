@@ -5,5 +5,7 @@ export default defineConfig({
   format: "esm",
   outDir: "./dist",
   clean: true,
-  noExternal: [/@bloom-app\/.*/],
+  // Bundle ALL dependencies for a self-contained production build
+  // This eliminates the need to install node_modules in the Docker image
+  noExternal: [/.*/],
 });
