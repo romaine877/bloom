@@ -73,7 +73,11 @@ COPY --from=builder --chown=fastify:nodejs /app/apps/server/dist ./dist
 COPY --from=builder --chown=fastify:nodejs /app/apps/server/package.json ./
 
 # Verify files were copied correctly (run as root before switching user)
-RUN ls -la dist/ && test -f dist/index.js || (echo "ERROR: dist/index.js not found after copy" && exit 1)
+# tsdown outputs index.mjs for ESM format
+RUN ls -la dist/ && \
+    (test -f dist/index.js && echo "✓ Found dist/index.js") || \
+    (test -f dist/index.mjs && echo "✓ Found dist/index.mjs") || \
+    (echo "ERROR: No entry file found after copy" && exit 1)
 
 # Create a startup script that logs errors and finds the correct entry file
 RUN echo '#!/bin/sh\n\
