@@ -41,7 +41,18 @@ COPY apps/server ./apps/server
 
 # Build the server (tsdown bundles workspace dependencies)
 WORKDIR /app/apps/server
-RUN bun run build
+RUN echo "=== Running build ===" && \
+    bun run build && \
+    echo "=== Build completed ===" && \
+    echo "=== Checking dist directory ===" && \
+    ls -la dist/ || (echo "ERROR: dist directory not created!" && exit 1) && \
+    echo "=== Looking for entry file ===" && \
+    (test -f dist/index.js && echo "✓ Found dist/index.js") || \
+    (test -f dist/index.mjs && echo "✓ Found dist/index.mjs") || \
+    (echo "ERROR: No entry file (index.js or index.mjs) found!" && \
+     echo "Contents of dist:" && ls -la dist/ && \
+     echo "Contents of current directory:" && ls -la . && \
+     exit 1)
 
 # =============================================================================
 # Stage 3: Production image with Node.js
@@ -61,6 +72,31 @@ RUN addgroup --system --gid 1001 nodejs && \
 COPY --from=builder --chown=fastify:nodejs /app/apps/server/dist ./dist
 COPY --from=builder --chown=fastify:nodejs /app/apps/server/package.json ./
 
+# Verify files were copied correctly (run as root before switching user)
+RUN ls -la dist/ && test -f dist/index.js || (echo "ERROR: dist/index.js not found after copy" && exit 1)
+
+# Create a startup script that logs errors and finds the correct entry file
+RUN echo '#!/bin/sh\n\
+set -e\n\
+echo "=== Starting server ==="\n\
+echo "PORT=${PORT:-8080}"\n\
+echo "NODE_ENV=${NODE_ENV:-production}"\n\
+echo "=== Files in dist ==="\n\
+ls -la dist/ || true\n\
+echo "=== Looking for entry file ==="\n\
+if [ -f dist/index.js ]; then\n\
+  echo "Found dist/index.js, starting..."\n\
+  exec node dist/index.js\n\
+elif [ -f dist/index.mjs ]; then\n\
+  echo "Found dist/index.mjs, starting..."\n\
+  exec node dist/index.mjs\n\
+else\n\
+  echo "ERROR: No entry file found!"\n\
+  ls -la dist/ || echo "dist directory does not exist"\n\
+  exit 1\n\
+fi\n\
+' > /app/start.sh && chmod +x /app/start.sh && chown fastify:nodejs /app/start.sh
+
 # Install only production dependencies needed for runtime
 # The bundle is self-contained, but we may need native modules
 RUN npm install --omit=dev --ignore-scripts 2>/dev/null || true
@@ -77,5 +113,5 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1
 
-CMD ["node", "dist/index.js"]
+CMD ["/app/start.sh"]
 
