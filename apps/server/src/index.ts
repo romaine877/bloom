@@ -31,17 +31,21 @@ const fastify = Fastify({
 });
 
 async function bootstrap() {
-  // Swagger documentation (register before routes)
-  await registerSwagger(fastify);
+  try {
+    // Google Cloud Run will set PORT environment variable
+    // You must listen on all IPV4 addresses (0.0.0.0) in Cloud Run
+    // Also check for K_SERVICE which Cloud Run sets
+    const IS_GOOGLE_CLOUD_RUN = process.env.K_SERVICE !== undefined || process.env.PORT !== undefined;
+    const host = IS_GOOGLE_CLOUD_RUN ? "0.0.0.0" : undefined;
 
-    // Google Cloud Run will set this environment variable for you, so
-  // you can also use it to detect if you are running in Cloud Run
-  const IS_GOOGLE_CLOUD_RUN = process.env.K_SERVICE !== undefined
+    console.log(`Starting server...`);
+    console.log(`Environment: ${env.NODE_ENV}`);
+    console.log(`Port: ${env.PORT}`);
+    console.log(`Host: ${host || "default"}`);
+    console.log(`Cloud Run: ${IS_GOOGLE_CLOUD_RUN ? "yes" : "no"}`);
 
-
-
-  // You must listen on all IPV4 addresses in Cloud Run
-  const host = IS_GOOGLE_CLOUD_RUN ? "0.0.0.0" : undefined
+    // Swagger documentation (register before routes)
+    await registerSwagger(fastify);
 
 
   await fastify.register(fastifyRawBody, {
@@ -101,15 +105,27 @@ async function bootstrap() {
     return { status: "ok", timestamp: new Date().toISOString() };
   });
 
-  // Start server
-  try {
+    // Start server
     await fastify.listen({ port: env.PORT, host: host });
-    console.log(`Server running on port ${env.PORT}`);
-    console.log(`API Documentation available at http://${env.HOST}:${env.PORT}/docs`);
+    console.log(`✅ Server running on port ${env.PORT}`);
+    console.log(`✅ API Documentation available at http://${host || "localhost"}:${env.PORT}/docs`);
   } catch (err) {
+    console.error("❌ Failed to start server:", err);
     fastify.log.error(err);
     process.exit(1);
   }
 }
+
+// Handle unhandled promise rejections
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled promise rejection:", err);
+  process.exit(1);
+});
+
+// Handle uncaught exceptions
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught exception:", err);
+  process.exit(1);
+});
 
 bootstrap();
