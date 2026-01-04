@@ -8,7 +8,6 @@ on:
       - "apps/server/**"
       - "packages/db/**"
       - "packages/env/**"
-      - "Dockerfile"
       - ".github/workflows/backend-deployment.yml"
 
 env:
@@ -44,7 +43,6 @@ jobs:
           source: .
           env_vars: |
             NODE_ENV=production
-            HOST=0.0.0.0
             CORS_ORIGIN=${{ secrets.CORS_ORIGIN }}
           secrets: |
             DATABASE_URL=DATABASE_URL:latest

@@ -34,6 +34,15 @@ async function bootstrap() {
   // Swagger documentation (register before routes)
   await registerSwagger(fastify);
 
+    // Google Cloud Run will set this environment variable for you, so
+  // you can also use it to detect if you are running in Cloud Run
+  const IS_GOOGLE_CLOUD_RUN = process.env.K_SERVICE !== undefined
+
+
+
+  // You must listen on all IPV4 addresses in Cloud Run
+  const host = IS_GOOGLE_CLOUD_RUN ? "0.0.0.0" : undefined
+
 
   await fastify.register(fastifyRawBody, {
     field: "rawBody",
@@ -94,7 +103,7 @@ async function bootstrap() {
 
   // Start server
   try {
-    await fastify.listen({ port: env.PORT,  });
+    await fastify.listen({ port: env.PORT, host: host });
     console.log(`Server running on port ${env.PORT}`);
     console.log(`API Documentation available at http://${env.HOST}:${env.PORT}/docs`);
   } catch (err) {
