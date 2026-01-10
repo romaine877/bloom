@@ -34,15 +34,12 @@ async function bootstrap() {
   try {
     // Google Cloud Run will set PORT environment variable
     // You must listen on all IPV4 addresses (0.0.0.0) in Cloud Run
-    // Also check for K_SERVICE which Cloud Run sets
-    const IS_GOOGLE_CLOUD_RUN = process.env.K_SERVICE !== undefined || process.env.PORT !== undefined;
-    const host = IS_GOOGLE_CLOUD_RUN ? "0.0.0.0" : undefined;
+    const host = env.HOST;
 
     console.log(`Starting server...`);
     console.log(`Environment: ${env.NODE_ENV}`);
     console.log(`Port: ${env.PORT}`);
-    console.log(`Host: ${host || "default"}`);
-    console.log(`Cloud Run: ${IS_GOOGLE_CLOUD_RUN ? "yes" : "no"}`);
+    console.log(`Host: ${host}`);
 
     // Swagger documentation (register before routes)
     await registerSwagger(fastify);
